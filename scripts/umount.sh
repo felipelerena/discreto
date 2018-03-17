@@ -1,5 +1,5 @@
 PROFILE_NAME=$1
-MOUNT_POINT=/media/$PROFILE_NAME
+MOUNT_POINT=/home/user/.config
 
 echo ">>>> Mounting $MOUNT_POINT"
 umount $MOUNT_POINT
