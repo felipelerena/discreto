@@ -1,6 +1,6 @@
 #!/bin/bash
-BROWSER=$1
-PROFILE_NAME=$2
+BROWSER=${1:-firefox}
+PROFILE_NAME=${2:-profile1}
 
 IMG_FILE=/home/user/images/$PROFILE_NAME.img
 MOUNT_POINT=/home/user/.config
@@ -10,12 +10,12 @@ create(){
     IMG_FILE=$2
 
     if [ ! -f $IMG_FILE ]; then
-        #echo ">>>> creating empty file $IMG_FILE"
+        echo ">>>> creating empty file $IMG_FILE"
         sudo dd if=/dev/zero of=$IMG_FILE bs=1M count=256
-        #echo ">>>> luks formating image"
+        echo ">>>> luks formating image"
         sudo cryptsetup -y luksFormat $IMG_FILE
         luks_open
-        #echo ">>>> ext4 formating luks image"
+        echo ">>>> ext4 formating luks image"
         sudo mkfs.ext4 /dev/mapper/$PROFILE_NAME
     fi
 }
@@ -49,9 +49,10 @@ luks_open(){
     sudo cryptsetup luksOpen $IMG_FILE $PROFILE_NAME
 }
 
+echo "------------------------ DISCRETO ------------------------"
+
 umount_device $MOUNT_POINT $PROFILE_NAME
 create $PROFILE_NAME $IMG_FILE
 mount_device $PROFILE_NAME $IMG_FILE $MOUNT_POINT
-run_browser
 $($BROWSER) && \
 umount_device $MOUNT_POINT $PROFILE_NAME
