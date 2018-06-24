@@ -1,7 +1,7 @@
-FROM ubuntu:17.10
+FROM ubuntu:18.04
 
 RUN apt-get update && \
-    apt-get install -y firefox chromium-browser cryptsetup sudo --no-install-recommends && \ 
+    apt-get install -y firefox chromium-browser cryptsetup libpulse0 sudo --no-install-recommends && \ 
 	rm -rf /var/lib/apt/lists/*
 
 # Replace 1000 with your user / group id
